@@ -73,6 +73,8 @@ hemisphere_image_urls = [
     {"title": "Syrtis Major Hemisphere", "img_url": "..."},
 ]
 ```
+Next Steps
+
 
 - - -
 
