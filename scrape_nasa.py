@@ -5,15 +5,15 @@ import time
 
 def init_browser():
     # @NOTE: Replace the path with your actual path to the chromedriver
-    executable_path = {"executable_path": "/usr/local/bin/chromedriver"}
+    executable_path = {"executable_path": "chromedriver.exe"}
     return Browser("chrome", **executable_path, headless=False)
 
 
 def scrape_info():
     browser = init_browser()
 
-    # Visit visitcostarica.herokuapp.com
-    url = "https://visitcostarica.herokuapp.com/"
+    # Visit 
+    url = "https://mars.nasa.gov/news//"
     browser.visit(url)
 
     time.sleep(1)
@@ -23,7 +23,7 @@ def scrape_info():
     soup = bs(html, "html.parser")
 
     # Get the average temps
-    avg_temps = soup.find('div', id='weather')
+    news_title = slide_el.find("div", class_="content_title").get_text()
 
     # Get the min avg temp
     min_temp = avg_temps.find_all('strong')[0].text
