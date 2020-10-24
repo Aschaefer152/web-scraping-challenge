@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect
 from flask_pymongo import PyMongo
-import scrape_costa
+import scrape_nasa #udpated 10/23/2020
 
 # Create an instance of Flask
 app = Flask(__name__)
@@ -24,8 +24,8 @@ def home():
 @app.route("/scrape")
 def scrape():
 
-    # Run the scrape function
-    nasa_data = scape_nasa.scrape_info()
+    # Run the scrape function *updated 10/22/2020
+    nasa_data = scrape_nasa.scrape_info()
 
     # Update the Mongo database using update and upsert=True
     mongo.db.collection.update({}, nasa_data, upsert=True)
