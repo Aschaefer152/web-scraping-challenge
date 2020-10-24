@@ -19,30 +19,52 @@ def scrape_info():
 
     time.sleep(1)
 
-    # Scrape page into Soup
+    #imports url
     html = browser.html
-    soup = bs(html, "html.parser")
-   
+    soup = bs(html, 'html.parser')  
+    slide_el = soup.select_one("ul.item_list li.slide")
 
-    # Get the average temps
-    news_title = soup.find("div", class_="content_title").get_text()
+    #find and print title
+    news_title = slide_el.find("div", class_="content_title").get_text()
+    print(news_title)
 
-    time.sleep(1)
-    # # Get the min avg temp
-    # min_temp = avg_temps.find_all('strong')[0].text
+    #find and print body
+    news_p=slide_el.find("div", class_="article_teaser_body").get_text()
+    print (news_p)
 
-    # # Get the max avg temp
-    # max_temp = avg_temps.find_all('strong')[1].text
+    url = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
+    browser.visit(url)
 
-    # # BONUS: Find the src for the sloth image
-    # relative_image_path = soup.find_all('img')[2]["src"]
-    # sloth_img = url + relative_image_path
+    #find the image background url
+
+    html = browser.html
+    soup = bs(html, 'html.parser')  
+
+    #first click Full-image to go to full image page
+    browser.links.find_by_partial_text('FULL').click()
+
+    browser.links.find_by_partial_text('more info').click()
+
+    #now we are in full image link, find the URL Image
+    html = browser.html
+    soup = bs(html, 'html.parser') 
+
+    time.sleep(5)
+
+    imgs =  soup.find("figure", class_= "lede")
+    # print(imgs)
+
+    links_with_text = [a['href'] for a in imgs.find_all('a', href=True)]
+    # elements = imgs.find_by_tag('a')
+    print(links_with_text)
+
+    nasa_image = "https://www.jpl.nasa.gov" + links_with_text[0] 
 
     # # Store data in a dictionary
     nasa_data = {
-        "news_title": news_title
-    #     "min_temp": min_temp,
-    #     "max_temp": max_temp
+        "news_title": news_title,
+        "news_p": news_p,
+        "nasa_image": nasa_image
     }
 
     # Close the browser after scraping
